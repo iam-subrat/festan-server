@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+        <title>Profile - Festan</title>
+        <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+        <link rel="stylesheet"
+            href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i">
+        <link rel="stylesheet" href="assets/fonts/fontawesome-all.min.css">
+        <link rel="stylesheet" href="assets/fonts/font-awesome.min.css">
+        <link rel="stylesheet" href="assets/fonts/fontawesome5-overrides.min.css">
+        <script src='https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.js'></script>
+        <link href='https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.css' rel='stylesheet' />
+
+        <style>
+            input {
+                color: black !important;
+            }
+            .text-black {
+                color: black !important;
+            }
+        </style>
+    </head>
+
+    <body id="page-top">
+        <div id="wrapper">
+            <%- include('partials/sitemap') %>
+                <div class="d-flex flex-column" id="content-wrapper">
+                    <div id="content">
+                        <%- include('partials/header') %>
+                            <div class="container-fluid">
+                                <h3 class="text-dark mb-4">Profile</h3>
+                                <%- include('partials/flash') %>
+                                    <div class="card shadow mb-3">
+                                        <div class="card-header py-3">
+                                            <p class="text-primary m-0 font-weight-bold">About Property Owner /
+                                                Manager</p>
+                                        </div>
+                                        <div class="card-body">
+                                            <form method="POST" action="/profile/owner" class="needs-validation" novalidate>
+                                                <div class="form-row">
+                                                    <div class="col">
+                                                        <div class="form-group"><label for="first_name"><strong>First
+                                                                    Name</strong></label><input class="form-control"
+                                                                type="text" id="first_name" placeholder="Meher"
+                                                                name="first_name" value="<%= user.fname %>" required><div class="invalid-feedback">Missing/Invalid input</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col">
+                                                        <div class="form-group"><label for="last_name"><strong>Last
+                                                                    Name</strong></label><input class="form-control"
+                                                                type="text" id="last_name" placeholder="Anand"
+                                                                name="last_name" value="<%= user.lname %>">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-row">
+                                                    <div class="col-lg-6">
+                                                        <div class="form-group"><label for="email"><strong>Email
+                                                                    Address</strong></label><input class="form-control"
+                                                                type="email" id="email" placeholder="user@example.com"
+                                                                name="email" value="<%= user.email %>" required><div class="invalid-feedback">Missing/Invalid input</div></div>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <div class="form-group"><label for="phone"><strong>Phone
+                                                                    Number</strong></label><input class="form-control"
+                                                                type="tel" id="phone" name="phone"
+                                                                placeholder="9999900000" value="<%= user.phone %>"
+                                                                required><div class="invalid-feedback">Missing/Invalid input</div></div>
+                                                    </div>
+                                                </div>
+                                                <div class=" form-group">
+                                                    <label for="pan_num"><strong>Aadhaar / PAN
+                                                            Number</strong></label><input class="form-control"
+                                                        type="text" id="pan_num" name="pan_num" minlength="10"
+                                                        maxlength="10" placeholder="ABCDE1234F"
+                                                        value="<%= user.pan %>">
+                                                </div>
+                                                <div class="form-group"><button class="btn btn-primary btn-sm"
+                                                        type="submit">Save</button></div>
+                                            </form>
+                                        </div>
+                                        <div class="card-footer">
+                                            <small>All the fields are mandatory.</small>
+                                        </div>
+                                    </div>
+
+                                    <div class="card shadow mb-3">
+                                        <div class="card-header py-3">
+                                            <p class="text-primary m-0 font-weight-bold">About Property</p>
+                                        </div>
+                                        <div class="card-body">
+                                            <form method="POST" action="/profile/prop" enctype="multipart/form-data" class="needs-validation" novalidate>
+                                                <div class="form-group">
+                                                    <label for="propname"><strong>Property Name</strong></label><input
+                                                        class="form-control" type="text" id="propname" name="propname"
+                                                        <% if(prop) { %>value="<%= prop.name %>"<% } %>>
+                                                </div>
+                                                <div class="form-group">
+                                                    <input type="text" style="display: none;" name="longitude"
+                                                        id="longitude" <% if(prop) { %>value="<%=
+                                                        prop.location.longitude %>"<% } %>>
+                                                            <input type="text" style="display: none;" name="latitude"
+                                                                id="latitude" <% if(prop) { %>value="<%=
+                                                                prop.location.latitude %>"<% } %>>
+                                                                    <div class="text-warning"><strong>Double
+                                                                                click</strong> to place the
+                                                                            pointer. Make sure you
+                                                                        place the pointer at correct location, since it
+                                                                        helps your potential customers to find and trace
+                                                                        the property.
+                                                                    </div>
+                                                </div>
+                                                <div class="form-row">
+                                                    <div class="col-xl m-1 p-1">
+                                                        <div class="form-row p-1">
+                                                            <div id='map' style='width: 350px; height: 230px;'></div>
+                                                        </div>
+                                                        <div class='form-row p-1'>
+                                                            <button type='button' class='btn btn-sm btn-danger'
+                                                                onclick='clr()'>Clear</button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xl-8">
+                                                        <div class="form-group"><label
+                                                                for="address"><strong>Address</strong>*</label><input
+                                                                class="form-control" type="text" id="address"
+                                                                placeholder="38, Gulzhar Nagar, Netaji Chowk"
+                                                                name="address" <% if(prop) { %>value="<%=
+                                                                prop.location.address %>"<% } %> required><div class="invalid-feedback">Missing/Invalid input</div></div>
+                                                        <div class="form-row">
+                                                            <div class="col-sm-6">
+                                                                <div class="form-group"><label for="city"><strong>City /
+                                                                            Town</strong>*</label><input
+                                                                        class="form-control" type="text" id="city"
+                                                                        placeholder="New Delhi" name="city" <% if(prop)
+                                                                        { %>value="<%= prop.location.city %>"<% } %>
+                                                                            required><div class="invalid-feedback">Missing/Invalid input</div></div>
+                                                            </div>
+
+                                                            <div class="col-sm-6">
+                                                                <div class="form-group"><label for="state"><strong>State/UT</strong>*</label><input class="form-control"
+                                                                        type="text" id="state" placeholder="Delhi" name="state" <% if(prop) {
+                                                                        %>value="<%= prop.location.state %>"<% } %>
+                                                                            required><div class="invalid-feedback">Missing/Invalid input</div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-row">
+                                                            <div class="col-sm-6">
+                                                                <div class="form-group"><label
+                                                                        for="pincode"><strong>Pincode</strong>*</label><input
+                                                                        class="form-control" type="text" id="pincode"
+                                                                        placeholder="123456" name="pincode"
+                                                                        maxlength="6" minlength="6" <% if(prop) {
+                                                                        %>value="<%= prop.location.pincode %>"<% } %>
+                                                                            required><div class="invalid-feedback">Missing/Invalid input</div></div>
+                                                            </div>
+                                                            <div class="col-sm-6">
+                                                                <div class="form-group"><label for="contact"><strong>Contact
+                                                                            Number</strong></label>*<input class="form-control"
+                                                                        type="tel" id="contact" placeholder="9999900000"
+                                                                        name="contact" <% if(prop) { %>value="<%= prop.contact
+                                                                        %>"<% } %> required><div class="invalid-feedback">Missing/Invalid input</div></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-row">
+                                                    <div class="col-sm-6">
+                                                        <div class="form-group">
+                                                            <label for="mailid"><strong>Email</strong></label>
+                                                            <input type="text" class="form-control" id="mailid" placeholder="Email" name="mailid" <% if(prop) { %>value="<%=
+                                                                prop.mailid %>"<% } %>>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        <div class="form-group">
+                                                            <label for="officeHours"><strong>Office hours</strong></label>
+                                                            <input type="text" class="form-control" id="officeHours" placeholder="HH:MM - HH:MM" name="officeHours" <% if(prop) {
+                                                                %>value="<%= prop.officeHours %>"<% } %>>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-row">
+                                                    <div class="col-sm-6">
+                                                        <div class="form-group">
+                                                            <label for="size"><strong>Area</strong> (in
+                                                                sq.ft)*</label>
+                                                            <input type="text" class="form-control" id="size"
+                                                                placeholder="7500" name="size" <% if(prop) { 
+                                                                %>value="<%= prop.size %>"<% } %> required><div class="invalid-feedback">Missing/Invalid input</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        <div class="form-group">
+                                                            <label for="capacity"><strong>Capacity</strong>*</label>
+                                                            <input type="text" class="form-control" id="capacity"
+                                                                placeholder="1000" name="capacity" <% if(prop) {
+                                                                %>value="<%= prop.capacity %>"<% } %> required><div class="invalid-feedback">Missing/Invalid input</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-row">
+                                                    <div class="col-sm-6">
+                                                        <div class="form-group">
+                                                            <label for="dressingRoom"><strong>No. of dressing rooms</strong></label>
+                                                            <input type="number" id="dressingRoom" name="dressingRoom" class="form-control" placeholder="0" <% if(prop)
+                                                                { %>value="<%= prop.dressingRoom %>"<% } %>>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        <div class="form-group">
+                                                            <label for="cctv"><strong>CCTV</strong>*</label>
+                                                            <select name="cctv" class="form-control">
+                                                                <option value=<%= true %> <% if(prop && prop.cctv) {%> selected <% } %>>Yes</option>
+                                                                <option value=<%= false %> <% if(prop && prop.cctv==false) {%> selected <% } %>>No</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-row">
+                                                    <div class="col-sm-6">
+                                                        <div class="form-group">
+                                                            <label for="allowBooking"><strong>Allow booking</strong>*</label>
+                                                            <select name="allowBooking" class="form-control">
+                                                                <option value="true" <% if(prop && prop.allowBooking=='true') {%> selected <% } %>>Yes</option>
+                                                                <option value="false" <% if(prop && prop.allowBooking=='false') {%> selected <% } %>>No</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        <div class="form-group">
+                                                            <label for="cost"><strong>Cost (approx.)</strong>
+                                                                (in ₹)*</label>
+                                                            <input type="text" id="cost" name="cost"
+                                                                class="form-control" placeholder="45000" <% if(prop) {
+                                                                %>value="<%= prop.price %>"<% } %> required><div class="invalid-feedback">Missing/Invalid input</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-row">
+                                                    <div class="col-sm-6">
+                                                        <div class="form-group">
+                                                            <label><strong>Function types</strong></label>
+                                                            <div class="mx-3">
+                                                                <% for (let proptype of proptypes) { %>
+                                                                    <div class="form-check row">
+                                                                        <input type="checkbox" class="form-check-input"
+                                                                            name="<%= proptype %>" id="<%= proptype %>" <% if (prop
+                                                                            && prop.functiontype.includes(proptype)) { %> checked <%
+                                                                            } %>>
+                                                                            <label for="<%= proptype %>" class="form-check-label">
+                                                                                <%= proptype %>
+                                                                            </label>
+                                                                    </div>
+                                                                <% } %>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        <div class="form-group">
+                                                            <label><strong>Services</strong></label>
+                                                            <div class="mx-3">
+                                                                <% for (let service of services) { %>
+                                                                    <div class="form-check row">
+                                                                        <input type="checkbox" class="form-check-input" name="<%= service %>" id="<%= service %>" <% if (prop
+                                                                            && prop.service.includes(service)) { %> checked <% } %>>
+                                                                            <label for="<%= service %>" class="form-check-label">
+                                                                                <%= service %>
+                                                                            </label>
+                                                                    </div>
+                                                                <% } %>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="desc"><strong>Description</strong></label>
+                                                    <textarea class="form-control text-black" id="desc" name="desc"
+                                                        rows="4"><% if(prop) { %><%= prop.description %><% } %></textarea><div class="invalid-feedback">Missing/Invalid input</div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="input-files"><strong>Add Images</strong></label>
+                                                    <div class="file-loading">
+                                                        <input id="input-files" type="file" id="images" name="images"
+                                                            multiple>
+                                                    </div>
+                                                    <div class="text-warning">At <strong>max 5</strong> images can be
+                                                            uploaded.</div>
+                                                </div>
+                                                <% if (prop && prop.images && prop.images.length>0) { %>
+                                                    <label><strong>Select images to delete</strong></label>
+                                                    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 mb-2">
+                                                    <% for (let image of prop.images) { %>
+                                                        <div class="col mb-2">
+                                                            <div class="custom-control custom-checkbox image-checkbox">
+                                                                <input type="checkbox" class="custom-control-input" name="<%= image.filename %>" id="<%= image.filename %>">
+                                                                <label class="custom-control-label" for="<%= image.filename %>">
+                                                                    <img src="<%= image.url %>" alt="#" class="img-fluid">
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    <% } %>
+                                                    </div>
+                                                <% } else { %>
+                                                    <div class="form-row"><label
+                                                            class="text-secondary">No images uploaded
+                                                                yet.</label></div>
+                                                <% } %>
+                                                <div class="form-group"><button
+                                                        class="btn btn-primary btn-sm"
+                                                        type="submit">Save</button></div>
+                                            </form>
+                                        </div>
+                                        <div class="card-footer">
+                                            <small>* fields are mandatory.</small>
+                                        </div>
+                                    </div>
+                                    <div class="card shadow mb-3">
+                                        <div class="card-header py-3">
+                                            <p class="text-primary m-0 font-weight-bold">Bank Details</p>
+                                        </div>
+                                        <div class="card-body">
+                                            <form method="POST" action="/profile/bankaccount" class="needs-validation" novalidate>
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="form-row">
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <label for="acholdername"><strong>A/c Holder
+                                                                            Name</strong></label>
+                                                                    <input type="text" class="form-control"
+                                                                        id="acholdername" name="acholdername"
+                                                                        placeholder="Meher Anand" <% if(account) {
+                                                                        %>value="<%= account.name %>"<% } %> required><div class="invalid-feedback">Missing/Invalid input</div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <label for="acnum"><strong>A/c
+                                                                            Number</strong></label>
+                                                                    <input type="text" id="acnum" name="acnum"
+                                                                        class="form-control" placeholder="1234567890" <%
+                                                                        if(account) { %>value="<%= account.accno %>"<% }
+                                                                            %> required><div class="invalid-feedback">Missing/Invalid input</div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="ifsc"><strong>IFS Code</strong></label>
+                                                            <input class="form-control" id="ifsc" name="ifsc"
+                                                                type="text" placeholder="SBIN0000000" <% if(account) {
+                                                                %>value="<%= account.ifsc %>"<% } %> required><div class="invalid-feedback">Missing/Invalid input</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group"><button class="btn btn-primary btn-sm"
+                                                        type="submit">Save</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="card-footer">
+                                            <small>All the fields are mandatory.</small>
+                                        </div>
+                                    </div>
+                            </div>
+                    </div>
+                    <%- include('partials/footer') %>
+                </div>
+                <a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a>
+        </div>
+        <%- include('partials/modal') %>
+
+            <!-- Load the `mapbox-gl-geocoder` plugin. -->
+            <script
+                src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.min.js"></script>
+            <link rel="stylesheet"
+                href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.css"
+                type="text/css">
+
+            <!-- Promise polyfill script is required -->
+            <!-- to use Mapbox GL Geocoder in IE 11. -->
+            <script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.auto.min.js"></script>
+
+            <script>
+                document.getElementById('profile').classList.add('active');
+            </script>
+            <script>
+                const mapToken = '<%= process.env.MAPBOX_KEY %>';
+            </script>
+            <script src="assets/js/map.js"></script>
+            <script src="assets/js/jquery.min.js"></script>
+            <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+            <script src="assets/js/chart.min.js"></script>
+            <script src="assets/js/bs-init.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.js"></script>
+            <script src="assets/js/theme.js"></script>
+            <script src="assets/js/form-validator.js"></script>
+    </body>
+
+</html>

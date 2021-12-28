@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+        <title>Register - Festan</title>
+        <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+        <link rel="stylesheet"
+            href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i">
+        <link rel="stylesheet" href="assets/fonts/fontawesome-all.min.css">
+        <link rel="stylesheet" href="assets/fonts/font-awesome.min.css">
+        <link rel="stylesheet" href="assets/fonts/fontawesome5-overrides.min.css">
+        <style>
+            input {
+                color: black !important;
+            }
+        </style>
+    </head>
+
+    <body class="bg-light">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="card shadow-lg my-5 col-lg-8">
+                <div class="card-body">
+                            <div class="m-3">
+                                <div class="text-center">
+                                    <h4 class="text-dark mb-4">Create an Account!</h4>
+                                </div>
+                                <%- include('partials/flash') %>
+                                    <form class="form mb-1 needs-validation" method="POST" action="/register?_method=PUT" novalidate>
+                                        <div class="form-group row">
+                                            <div class="col-sm-6 mb-3 mb-sm-0"><input
+                                                    class="form-control " type="text" id="first_name"
+                                                    placeholder="First Name" name="first_name" required><div class="invalid-feedback">Missing/Invalid input</div>
+                                            </div>
+                                            <div class="col-sm-6"><input class="form-control"
+                                                    type="text" id="last_name" placeholder="Last Name" name="last_name" required>
+                                            </div>
+                                        </div>
+                                        <div class="form-group"><input class="form-control"
+                                                type="email" id="email" aria-describedby="emailHelp"
+                                                placeholder="Email Address" name="email" required><div class="invalid-feedback">Missing/Invalid input</div></div>
+                                        <div class="form-group row">
+                                            <div class="col-sm-6 mb-3 mb-sm-0"><input
+                                                    class="form-control " type="password" id="password"
+                                                    placeholder="Password" name="password" minlength="6" required><div class="invalid-feedback">Missing/Invalid input</div></div>
+                                            <div class="col-sm-6"><input class="form-control"
+                                                    type="password" id="password_repeat" placeholder="Repeat Password"
+                                                    name="password_repeat" minlength="6" required><div class="invalid-feedback">Missing/Invalid input</div></div>
+                                        </div>
+                                        <div class="form-group">
+                                            <input class="form-control "
+                                                    type="text" id="pan" placeholder="Aadhaar/PAN" name="pan">
+                                        </div>
+                                        <div class="form-group"><input class="form-control"
+                                                type="text" id="phone" placeholder="Phone Number" name="phone" required><div class="invalid-feedback">Missing/Invalid input</div></div>
+                                        <button class="btn btn-primary btn-block"
+                                            type="button" onclick="sendOTP()">Register
+                                            Account</button>
+                                        <div class="form-group m-3" style="display: none;" id="otpbox">
+                                            <div class="mb-1"><input class="form-control" type="text" id="otp" placeholder="Enter OTP sent to your phone" minlength="4" required><div class="invalid-feedback">Missing/Invalid input</div></div>
+                                            <div class="m-3" id="countdownmsg" style="display: none;">The OTP expires in <strong><span id="timeout"></span></strong> seconds.</div>
+                                            <div class="form-row">
+                                                <div class="col-sm-6 mt-2">
+                                                    <button class="btn btn-success btn-block" type="submit">Submit</button>
+                                                </div>
+                                                <div class="col-sm-6 mt-2">
+                                                    <button class="btn btn-primary btn-block" type="button" onclick="resendOTP()" id="resend" style="display: none;">Resend</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                    <div class="text-center"><small>Already have an account?</small> <a class="small"
+                                            href="/login">Login</a></div>
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="assets/js/form-validator.js"></script>
+        <script src="assets/js/register-otp.js"></script>
+        <script src="assets/js/jquery.min.js"></script>
+        <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+        <script src="assets/js/chart.min.js"></script>
+        <script src="assets/js/bs-init.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.js"></script>
+        <script src="assets/js/theme.js"></script>
+    </body>
+
+</html>

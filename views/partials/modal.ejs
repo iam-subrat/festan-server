@@ -1,0 +1,46 @@
+<!--Logout modal-->
+<div class="modal" tabindex="-1" role="dialog" id="logoutWarn">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-primary">Logout</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Do you wish to <strong>log out</strong>?</p>
+            </div>
+            <div class="modal-footer">
+                <form method="POST" action="/logout"><button type="submit"
+                        class="btn btn-sm btn-outline-danger">Yes</button></form>
+                <button type="button" class="btn btn-sm btn-outline-primary" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Delete account modal-->
+<div class="modal" tabindex="-1" role="dialog" id="deleteWarn">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-primary">Delete Account</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Do you really wish to <strong>delete your account permanently?</strong></p>
+                <p class="text-danger"><strong>Warning:</strong> All your data will be deleted and cannot be retrieved.
+                </p>
+                <form action="/account/delete?_method=DELETE" method="POST">
+                    <input type="password" class="form-control" id="pwd" name="pwd" placeholder="Enter password">
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-sm btn-outline-danger">Yes, delete</button></form>
+                <button type="button" class="btn btn-sm btn-outline-primary" data-dismiss="modal">No, cancel</button>
+            </div>
+        </div>
+    </div>
+</div>

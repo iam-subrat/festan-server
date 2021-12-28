@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+        <title>Profile - Festan</title>
+        <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+        <link rel="stylesheet"
+            href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i">
+        <link rel="stylesheet" href="assets/fonts/fontawesome-all.min.css">
+        <link rel="stylesheet" href="assets/fonts/font-awesome.min.css">
+        <link rel="stylesheet" href="assets/fonts/fontawesome5-overrides.min.css">
+
+        <style>
+            input {
+                color: black !important;
+            }
+        </style>
+    </head>
+
+    <body id="page-top">
+        <div id="wrapper">
+            <%- include('partials/sitemap') %>
+                <div class="d-flex flex-column" id="content-wrapper">
+                    <div id="content">
+                        <%- include('partials/header') %>
+                            <div class="container-fluid">
+                                <%- include('partials/flash') %>
+                                    
+                                    <div class="card shadow mb-3">
+                                        <div class="card-header py-3">
+                                            <p class="text-primary m-0 font-weight-bold">Account Settings</p>
+                                        </div>
+                                        <div class="card-body">
+                                            <form action="/account" method="POST" class="form needs-validation" novalidate>
+                                                <div class="form-row">
+                                                    <div class="col-sm-6">
+                                                        <div class="form-group"><input type="password" id="password" name="password" class="form-control" placeholder="Current password" required><div class="invalid-feedback">Missing/Invalid input</div></div>
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        <div class="form-group"><input type="password" id="newpassword" name="newpassword" class="form-control" placeholder="New password" required minlength="6"><div class="invalid-feedback">Missing/Invalid input</div></div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group"><input type="password" id="newpassword" name="passwordrepeat" class="form-control" placeholder="Repeat new password" required minlength="6"><div class="invalid-feedback">Missing/Invalid input</div></div>
+                                                <div class="text-warning mb-2">Password must contain atleast <strong>6</strong> characters.</div>
+                                                <button class="btn btn-sm btn-primary" type="submit">Change password</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <div class="card shadow mb-3">
+                                        <div class="card-header py-3">
+                                            <p class="text-primary m-0 font-weight-bold">Permanantly Delete Account</p>
+                                        </div>
+                                        <div class="card-body">
+                                            <button class="btn btn-sm btn-outline-danger" type="button" data-toggle="modal" data-target="#deleteWarn">Delete
+                                                Account</button>
+                                        </div>
+                                    </div>
+                            </div>
+                    </div>
+                    <%- include('partials/footer') %>
+                </div>
+                <a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a>
+        </div>
+        <%- include('partials/modal') %>
+
+        <script src="assets/js/jquery.min.js"></script>
+        <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+        <script src="assets/js/chart.min.js"></script>
+        <script src="assets/js/bs-init.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.js"></script>
+        <script src="assets/js/theme.js"></script>
+        <script src="assets/js/form-validator.js"></script>
+    </body>
+
+</html>
