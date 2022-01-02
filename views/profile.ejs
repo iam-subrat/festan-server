@@ -35,7 +35,7 @@
                                 <%- include('partials/flash') %>
                                     <div class="card shadow mb-3">
                                         <div class="card-header py-3">
-                                            <p class="text-primary m-0 font-weight-bold">About Property Owner /
+                                            <p class="text-primary m-0 font-weight-bold">About Owner /
                                                 Manager</p>
                                         </div>
                                         <div class="card-body">
@@ -89,12 +89,12 @@
 
                                     <div class="card shadow mb-3">
                                         <div class="card-header py-3">
-                                            <p class="text-primary m-0 font-weight-bold">About Property</p>
+                                            <p class="text-primary m-0 font-weight-bold">About Place</p>
                                         </div>
                                         <div class="card-body">
                                             <form method="POST" action="/profile/prop" enctype="multipart/form-data" class="needs-validation" novalidate>
                                                 <div class="form-group">
-                                                    <label for="propname"><strong>Property Name</strong></label><input
+                                                    <label for="propname"><strong>Place Name</strong></label><input
                                                         class="form-control" type="text" id="propname" name="propname"
                                                         <% if(prop) { %>value="<%= prop.name %>"<% } %>>
                                                 </div>
@@ -107,10 +107,10 @@
                                                                 prop.location.latitude %>"<% } %>>
                                                                     <div class="text-warning"><strong>Double
                                                                                 click</strong> to place the
-                                                                            pointer. Make sure you
+                                                                            pointer. Make sure to
                                                                         place the pointer at correct location, since it
                                                                         helps your potential customers to find and trace
-                                                                        the property.
+                                                                        the venue.
                                                                     </div>
                                                 </div>
                                                 <div class="form-row">

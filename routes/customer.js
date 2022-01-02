@@ -104,9 +104,9 @@ router.post('/request-booking', async (req, res) => {
         });
         await eventBooking.save();
         console.log('Event booking', eventBooking);
-        res.json({ message: 'success' });
+        res.json({ message: 'Successfully sent request' });
     } catch(err) {
-        res.json({ message: 'failed', error : err.message });
+        res.json({ message: 'Failed to send request', error : err.message });
     }
 });
 
