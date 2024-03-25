@@ -1,17 +1,20 @@
+# Use an official Node.js runtime as the base image
 FROM node:18-alpine
 
-RUN mkdir -p /home/node/app/node_modules && chown -R node:node /home/node/app
+# Set the working directory in the container
+WORKDIR /usr/src/app
 
-WORKDIR /home/node/app
-
+# Copy package.json and package-lock.json to the working directory
 COPY package*.json ./
 
-USER node
-
+# Install npm dependencies
 RUN npm install
 
-COPY --chown=node:node . .
+# Copy the rest of the application code to the working directory
+COPY . .
 
+# Expose the port the app runs on
 EXPOSE 3001
 
-CMD [ "node", "server.js" ]
+# Command to run the application
+CMD ["node", "server.js"]
