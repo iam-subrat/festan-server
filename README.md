@@ -10,12 +10,12 @@ DB_PATH=value0 | mongodb://localhost:27017/<database_name>
 SESSION_SECRET=value1
 PORT=value2 | 3001 (dev) | 8080 (deploy)
 SERVER_DOMAIN=value3 | http://localhost:3001
-CLIENT_DOMAIN=value4 | http://localhost:3000
 MAPBOX_KEY=value5
 ```
 
 _(Use the same keys with real values.)_
 
+_**Note**: Set `NODE_ENV=PRODUCTION` environment variable in your production environment to allow cross-origin session cookies, i.e. to let client run on a different domain. (While in other environments it is limited to same-site.)_
+
 4. Run `mongoDB` daemon to be able to connect to database.
 5. Run `npm start` or `npm run`.
-
