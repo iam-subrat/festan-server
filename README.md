@@ -18,4 +18,4 @@ _(Use the same keys with real values.)_
 _**Note**: Set `NODE_ENV=PRODUCTION` environment variable in your production environment to allow cross-origin session cookies, i.e. to let client run on a different domain. (While in other environments it is limited to same-site.)_
 
 4. Run `mongoDB` daemon to be able to connect to database.
-5. Run `npm start` or `npm run`.
+5. Run `npm start` or `npm run dev` (to use `nodemon` in dev environment).
