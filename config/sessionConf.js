@@ -11,7 +11,7 @@ const sessionConfig = {
   cookie: {
     maxAge: weekinmillis(),
     secure: process.env.NODE_ENV === "PRODUCTION",
-    sameSite: "none",
+    sameSite: process.env.NODE_ENV === "PRODUCTION" ? "none" : false
   },
 };
 
