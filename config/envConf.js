@@ -1,6 +1,6 @@
-const path = require('path');
+const path = require("path");
 function config() {
-    if (process.env.NODE_ENV!=='PRODUCTION')
-        require('dotenv').config({ path: path.join(__dirname, '../.env') });
+    if (process.env.NODE_ENV.toUpperCase() !== "PRODUCTION")
+        require("dotenv").config({ path: path.join(__dirname, "../.env") });
 }
-module.exports = config
+module.exports = config;
