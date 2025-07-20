@@ -93,6 +93,8 @@ app.use((req, res, next) => {
         : [];
     const origin = req.headers.origin;
 
+    console.log("ORIGIN:", origin);
+
     // In development, allow all origins if no specific origins are set
     if (
         process.env.NODE_ENV?.toLowerCase() !== "production" &&
@@ -121,8 +123,6 @@ app.use((req, res, next) => {
     }
     next();
 });
-
-app.use(helmet());
 
 // Define content security policy URLs from environment variables or use defaults
 const defaultScriptSrcUrls = [
