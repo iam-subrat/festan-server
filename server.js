@@ -66,6 +66,7 @@ const inputValidationResult = require("./middlewares/valResult");
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "/views"));
+app.set("trust proxy", 1);
 
 //to access the public folder from anywhere directly
 app.use(express.static(path.join(__dirname, "public")));
