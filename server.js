@@ -5,6 +5,7 @@ const session = require("express-session");
 const { hashedpwd, authenticate } = require("./services/pwdServices");
 const flash = require("connect-flash");
 const helmet = require("helmet");
+const cors = require("cors");
 
 const customerRoutes = require("./routes/customer");
 const apiRoutes = require("./routes/api");
@@ -86,44 +87,6 @@ app.use(
     })
 );
 
-// Configure CORS for both same-origin and cross-origin requests
-app.use((req, res, next) => {
-    const allowedOrigins = process.env.ALLOWED_ORIGINS
-        ? process.env.ALLOWED_ORIGINS.split(",")
-        : [];
-    const origin = req.headers.origin;
-
-    console.log("ORIGIN:", origin);
-
-    // In development, allow all origins if no specific origins are set
-    if (
-        process.env.NODE_ENV?.toLowerCase() !== "production" &&
-        allowedOrigins.length === 0
-    ) {
-        res.header("Access-Control-Allow-Origin", origin || "*");
-        res.header("Access-Control-Allow-Credentials", "true");
-    }
-    // In production or when specific origins are set, only allow listed origins
-    else if (allowedOrigins.includes(origin)) {
-        res.header("Access-Control-Allow-Origin", origin);
-        res.header("Access-Control-Allow-Credentials", "true");
-    }
-
-    res.header(
-        "Access-Control-Allow-Methods",
-        "GET,PUT,POST,DELETE,UPDATE,OPTIONS"
-    );
-    res.header(
-        "Access-Control-Allow-Headers",
-        "X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept"
-    );
-
-    if (req.method === "OPTIONS") {
-        return res.status(200).end();
-    }
-    next();
-});
-
 // Define content security policy URLs from environment variables or use defaults
 const defaultScriptSrcUrls = [
     "https://stackpath.bootstrapcdn.com/",
@@ -154,26 +117,38 @@ const defaultConnectSrcUrls = [
 
 const defaultFontSrcUrls = ["https://fonts.gstatic.com/"];
 
+const defaultAllowedOrigins = [
+    "http://localhost:3000",
+    "http://localhost:3001",
+];
+
 const scriptSrcUrls = process.env.SCRIPT_SRC_URLS
-    ? process.env.SCRIPT_SRC_URLS.split(",").filter((url) => url.trim())
+    ? process.env.SCRIPT_SRC_URLS.split(",").map((url) => url.trim())
     : defaultScriptSrcUrls;
 
 const styleSrcUrls = process.env.STYLE_SRC_URLS
-    ? process.env.STYLE_SRC_URLS.split(",").filter((url) => url.trim())
+    ? process.env.STYLE_SRC_URLS.split(",").map((url) => url.trim())
     : defaultStyleSrcUrls;
 
 const connectSrcUrls = process.env.CONNECT_SRC_URLS
-    ? process.env.CONNECT_SRC_URLS.split(",").filter((url) => url.trim())
+    ? process.env.CONNECT_SRC_URLS.split(",").map((url) => url.trim())
     : defaultConnectSrcUrls;
 
 const fontSrcUrls = process.env.FONT_SRC_URLS
-    ? process.env.FONT_SRC_URLS.split(",").filter((url) => url.trim())
+    ? process.env.FONT_SRC_URLS.split(",").map((url) => url.trim())
     : defaultFontSrcUrls;
 
 // Get additional allowed domains from environment variables
 const allowedOrigins = process.env.ALLOWED_ORIGINS
-    ? process.env.ALLOWED_ORIGINS.split(",")
-    : [];
+    ? process.env.ALLOWED_ORIGINS.split(",").map((url) => url.trim())
+    : defaultAllowedOrigins; // Default for local dev
+
+app.use(
+    cors({
+        origin: allowedOrigins,
+        credentials: true, // Allow cookies to be sent cross-site
+    })
+);
 
 app.use(
     helmet.contentSecurityPolicy({
