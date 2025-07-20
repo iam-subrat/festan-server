@@ -10,8 +10,11 @@ const sessionConfig = {
     store: MongoStore.create({ mongoUrl: process.env.DB_PATH }),
     cookie: {
         maxAge: weekinmillis(),
-        secure: process.env.NODE_ENV === "production",
-        sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+        secure: process.env.NODE_ENV.toLowerCase() === "production",
+        sameSite:
+            process.env.NODE_ENV.toLowerCase() === "production"
+                ? "none"
+                : "lax",
         httpOnly: true,
     },
 };
