@@ -7,15 +7,19 @@ const sessionConfig = {
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
-    store: MongoStore.create({ mongoUrl: process.env.DB_PATH }),
+    store: MongoStore.create({
+        mongoUrl: process.env.DB_PATH,
+        touchAfter: 24 * 3600,
+    }),
     cookie: {
         maxAge: weekinmillis(),
-        secure: process.env.NODE_ENV.toLowerCase() === "production",
+        secure: process.env.NODE_ENV?.toLowerCase() === "production",
         sameSite:
-            process.env.NODE_ENV.toLowerCase() === "production"
+            process.env.NODE_ENV?.toLowerCase() === "production"
                 ? "none"
                 : "lax",
         httpOnly: true,
+        path: "/",
     },
 };
 
