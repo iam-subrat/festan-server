@@ -391,7 +391,10 @@ app.post(
     async (req, res) => {
         console.log(req.body.allowBooking);
         const newimages = req.files.map((file) => ({
-            url: `${process.env.SERVER_DOMAIN}/api/image/props/${file.filename}`,
+            url: new URL(
+                `/api/image/props/${file.filename}`,
+                process.env.SERVER_DOMAIN
+            ).toString(),
             filename: file.filename,
         }));
         try {
